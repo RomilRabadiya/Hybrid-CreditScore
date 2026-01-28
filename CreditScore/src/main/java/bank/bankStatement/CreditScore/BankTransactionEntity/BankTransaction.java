@@ -6,35 +6,27 @@ import java.util.UUID;
 
 public final class BankTransaction {
 
-    /* =========================
-       Core Identifiers
-       ========================= */
+    //Core Identifiers
     private final String transactionId;
     private final String accountId;
 
-    /* =========================
-       Transaction Metadata
-       ========================= */
+    //Transaction Metadata
     private final LocalDate transactionDate;
     private final TransactionDirection direction;   // INFLOW / OUTFLOW
     private final TransactionNature nature;         // SALARY, EMI, RENT
     private final TransactionChannel channel;       // UPI, NEFT, CASH
 
-    /* =========================
-       Financials
-       ========================= */
+    //Financials
     private final BigDecimal amount;
     private final BigDecimal balanceBefore;
     private final BigDecimal balanceAfter;
 
-    /* =========================
-       Description
-       ========================= */
+    //Description
     private final String description;
 
-    /* =========================
-       Constructor
-       ========================= */
+
+
+    //Constructor
     public BankTransaction(
             String accountId,
             LocalDate transactionDate,
