@@ -10,7 +10,6 @@ public final class BankTransaction {
        Core Identifiers
        ========================= */
     private final String transactionId;
-    private final String pan;
     private final String accountId;
 
     /* =========================
@@ -37,7 +36,6 @@ public final class BankTransaction {
        Constructor
        ========================= */
     public BankTransaction(
-            String pan,
             String accountId,
             LocalDate transactionDate,
             TransactionDirection direction,
@@ -48,7 +46,6 @@ public final class BankTransaction {
             String description
     ) {
         this.transactionId = UUID.randomUUID().toString();
-        this.pan = pan;
         this.accountId = accountId;
         this.transactionDate = transactionDate;
         this.direction = direction;
@@ -68,7 +65,6 @@ public final class BankTransaction {
        Getters (Immutable Object)
        ========================= */
     public String getTransactionId() { return transactionId; }
-    public String getPan() { return pan; }
     public String getAccountId() { return accountId; }
     public LocalDate getTransactionDate() { return transactionDate; }
     public TransactionDirection getDirection() { return direction; }
