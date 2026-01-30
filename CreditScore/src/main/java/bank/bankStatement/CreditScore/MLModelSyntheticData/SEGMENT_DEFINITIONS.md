@@ -464,30 +464,7 @@ graph LR
 
 ---
 
-## ✅ Key Takeaways
 
-1. **Segments define feature distributions** — not labels, scores, or predictions
-2. **15 segments cover all credit personas** — from ultra prime to fraud
-3. **35% Prime/Near Prime** — reflects real banking portfolios
-4. **Edge cases prevent bias** — ensures fairness and model robustness
-5. **All ML models benefit** — each learns different patterns from the same segments
-
----
-
-## 📚 Segment Usage in Code
-
-When implementing these segments:
-
-```java
-// ❌ WRONG - Don't use segment as a label
-if (segment == ULTRA_PRIME) {
-    score = 900;
-}
-
-// ✔ CORRECT - Use segment to generate features
-CreditProfile profile = SegmentGenerator.generate(ULTRA_PRIME);
-double score = ruleEngine.score(profile.getFeatures());
-```
 
 ---
 
