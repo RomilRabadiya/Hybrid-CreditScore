@@ -1,4 +1,4 @@
-# 🧮 AA Rule-Based Hybrid Credit Score
+# 🧮 Rule-Based Hybrid Credit Score
 *(Redefined using BankTransaction – Bank-Grade)*
 
 **Base Score:** 500  
@@ -28,18 +28,18 @@ Can the user generate money consistently?
 
 | Avg Monthly Income | Score |
 |-------------------|-------|
-| ≥ ₹150,000 | +120 |
-| ≥ ₹100,000 | +80 |
-| ≥ ₹60,000  | +40 |
-| Else       | -40 |
+| ≥ ₹150,000 | +90 |
+| ≥ ₹100,000 | +60 |
+| ≥ ₹60,000  | +30 |
+| Else       | -60 |
 
 #### Income Stability
 
 | CV (Variation) | Score |
 |---------------|-------|
-| < 10% | +40 |
-| < 20% | +20 |
-| Else  | -30 |
+| < 10% | +30 |
+| < 20% | +15 |
+| Else  | -40 |
 
 📌 **Why it matters**  
 Income is the **primary repayment source**.
@@ -62,10 +62,10 @@ Is the user financially disciplined?
 
 | Expense Ratio | Score |
 |--------------|-------|
-| ≤ 50% | +80 |
-| ≤ 65% | +40 |
-| ≤ 80% | 0 |
-| > 80% | -60 |
+| ≤ 50% | +60 |
+| ≤ 65% | +30 |
+| ≤ 80% | -10 |
+| > 80% | -80 |
 
 📌 **Key Insight**  
 High income with poor discipline = **still risky**.
@@ -87,10 +87,10 @@ Is the user already overloaded?
 
 | EMI Ratio | Score |
 |----------|-------|
-| ≤ 30% | +70 |
-| ≤ 40% | +30 |
-| ≤ 50% | -20 |
-| > 50% | -80 |
+| ≤ 30% | +50 |
+| ≤ 40% | +20 |
+| ≤ 50% | -40 |
+| > 50% | -100 |
 
 📌 **Banking Golden Rule**  
 EMI > 50% = **danger zone**.
@@ -109,10 +109,10 @@ Does the user maintain a cash buffer?
 
 | Avg Balance | Score |
 |------------|-------|
-| ≥ ₹100,000 | +60 |
-| ≥ ₹50,000  | +30 |
-| ≥ ₹20,000  | 0 |
-| < ₹20,000  | -40 |
+| ≥ ₹100,000 | +40 |
+| ≥ ₹50,000  | +20 |
+| ≥ ₹20,000  | -10 |
+| < ₹20,000  | -60 |
 
 📌 Prevents **salary-in → salary-out** frauds.
 
@@ -131,10 +131,10 @@ Can the user be trusted?
 
 | Bounce Count (12M) | Score |
 |-------------------|-------|
-| 0 | +100 |
-| 1 | +40 |
-| ≤ 3 | -50 |
-| > 3 | -120 |
+| 0 | +70 |
+| 1 | +25 |
+| ≤ 3 | -80 |
+| > 3 | -150 |
 
 🚨 **Hard Signal**  
 Too many bounces = **automatic distrust**.
@@ -152,29 +152,13 @@ Is this a seasoned or unknown borrower?
 
 | Account Age | Score |
 |------------|-------|
-| ≥ 60 months | +60 |
-| ≥ 36 months | +40 |
-| ≥ 12 months | +20 |
-| < 12 months | -30 |
+| ≥ 60 months | +40 |
+| ≥ 36 months | +30 |
+| ≥ 12 months | +15 |
+| < 12 months | -50 |
 
 📌 New accounts = **unknown behavior**.
 
----
-
-## 7️⃣ Fraud / Anomaly Guardrail (AI-Driven)
-
-### 🎯 Purpose
-Kill-switch for suspicious behavior.
-
-### 📥 Derived From ML
-- Isolation Forest / heuristics detecting:
-    - Sudden large INFLOW
-    - Structuring (₹49,000 cash deposits)
-    - Expense > Income > 150%
-
-### 🧠 Rule
-
-📌 **Overrides everything else**.
 
 ---
 
@@ -189,5 +173,3 @@ ruleScore = 500
   + balanceScore
   + bounceScore
   + vintageScore
-  + fraudPenalty;
-
