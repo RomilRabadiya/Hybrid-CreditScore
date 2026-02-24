@@ -13,6 +13,11 @@
 *   **Key Behavior**:
     *   Deterministic: Same PAN → Always generates the exact same bank statement.
     *   PAN is the sole identifier for the session.
+   ### ML-API (Port 8000)
+
+- `POST /api/credit/decision` - Generate ML-powered credit decision
+- `GET /health` - Health check
+- `GET /docs` - Interactive API documentation
 
 ---
 
