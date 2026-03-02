@@ -14,7 +14,3 @@ joblib==1.3.2
 
 # Explainability
 shap>=0.45.0
-
-# Optional: Performance & Monitoring
-python-multipart==0.0.6
-python-json-logger==2.0.7

@@ -1,20 +1,12 @@
-"""
-Service layer for credit decision business logic.
-Provides clean separation between API routes and ML engine.
-"""
+#Import Credit Decision Engine as a => "engine"
 from app.engines.credit_decision_engine import engine
 
+#Service Layer : clean separation between API routes and ML engine
 
-def generate_decision(input_data: dict, explain: bool = True) -> dict:
-    """
-    Generate credit decision with explanations.
-    
-    Args:
-        input_data (dict): Customer financial features
-        explain (bool): Whether to include SHAP explanations
-        
-    Returns:
-        dict: Complete decision with all model outputs
-    """
-    result = engine.get_decision_explanation(input_data, explain=explain)
-    return result
+# This function is called by the API router
+# It calls the credit decision engine
+# It returns the decision
+
+def generate_decision(input_data: dict) -> dict:
+    #Call Credit Decision Engine method get_decision
+    return engine.get_decision(input_data)
