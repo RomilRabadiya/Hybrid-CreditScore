@@ -2,7 +2,9 @@ from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from io import BytesIO
 import matplotlib
-matplotlib.use("Agg")  # ← VERY IMPORTANT
+matplotlib.use("Agg")
+# In Matplotlib, AGG refers to the Anti-Grain Geometry (AGG) library,
+# which is used to create pixel images of plots.
 import matplotlib.pyplot as plt
 import shap
 import pandas as pd
@@ -43,6 +45,7 @@ def explain_pd(req: CreditRequest):
     plt.close()
     buffer.seek(0)
 
+    # Step 7: Return Streaming Response
     return StreamingResponse(buffer, media_type="image/png")
 
 
@@ -105,9 +108,10 @@ def explain_hybrid(req: CreditRequest):
 # Visualize Risk Label
 @router.post("/risk")
 def explain_risk(req: CreditRequest):
+    # Step 1 : Convert to DataFrame
     df_input = pd.DataFrame([req.dict()])
 
-    # Recompute signals
+    # Recompute PD and Anomaly Flag
     X_pd = registry.pd_scaler.transform(df_input[registry.pd_features])
     pd_val = registry.pd_model.predict_proba(X_pd)[0, 1]
 
@@ -115,6 +119,7 @@ def explain_risk(req: CreditRequest):
     if_score = registry.iso_model.decision_function(X_if)[0]
     anomaly_flag = 1 if if_score < -0.05 else 0
 
+    # Step 2 : Create Copy of Input Dataframe And Add PD and Anomaly Flag
     df_risk = df_input.copy()
     df_risk["PD"] = pd_val
     df_risk["anomalyFlag"] = anomaly_flag
@@ -122,30 +127,35 @@ def explain_risk(req: CreditRequest):
     X_risk = df_risk[registry.risk_features]
     risk_idx = int(registry.risk_model.predict(X_risk)[0])
 
+    # Step 3 : Explaination : TreeExplainer
     risk_exp = engine.risk_explainer(X_risk)
 
-    if risk_exp.values.ndim == 3:
-        shap_values = risk_exp.values[0, :, risk_idx]
-        explanation = shap.Explanation(
-            values=shap_values,
-            base_values=risk_exp.base_values[0][risk_idx],
-            data=X_risk.values[0],
-            feature_names=registry.risk_features
-        )
-    else:
-        explanation = risk_exp[0]
-
+    # Step 4 : Convert 3D array to 1D array
+    shap_values = risk_exp.values[0, :, risk_idx]
+    
+    # Step 5 : Create Explanation Object
+    explanation = shap.Explanation(
+        values=shap_values,
+        base_values=risk_exp.base_values[0][risk_idx],
+        data=X_risk.values[0],
+        feature_names=registry.risk_features
+    )
+    
+    # Step 6 : Rename Features for Business
     explanation.feature_names = [
         BUSINESS_MAPPING.get(f, f)
         for f in registry.risk_features
     ]
 
+    # Step 7 : Create Waterfall Plot
     plt.figure(figsize=(10, 4))
     shap.plots.waterfall(explanation, show=False)
 
+    # Step 8 : Save to Buffer
     buffer = BytesIO()
     plt.savefig(buffer, format="png", bbox_inches="tight")
     plt.close()
     buffer.seek(0)
 
+    # Step 9 : Return Streaming Response
     return StreamingResponse(buffer, media_type="image/png")

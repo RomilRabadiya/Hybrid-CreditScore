@@ -1,11 +1,14 @@
-package bank.bankStatement.CreditScore.Feature;
+package bank.bankStatement.CreditScore.MLFeatureAccumulator;
 
 import java.math.BigDecimal;
 
-//BankAnalysisResult is a class that is used to store the results of the bank statement analysis.
+// BankStatementAnalysis == MLRequest
 
-//BankAnalysisResult Is used on Our ML Model
-public class BankAnalysisResult
+
+//BankStatementAnalysis stores the results of the 1-year bank statement analysis.
+//It is passed directly to the ML API as the request body.
+
+public class BankStatementAnalysis
 {
     
 //     avgMonthlyIncome    =>	Repayment capacity
@@ -15,7 +18,6 @@ public class BankAnalysisResult
 //     avgMonthlyBalance   =>	Liquidity
 //     bounceCount         =>	Trust / repayment discipline
 //     accountAgeMonths    =>	Credit maturity
-//     anomalyDetected     =>	Fraud / risk guardrail
 
     BigDecimal avgMonthlyIncome;//Average Monthly Income
     BigDecimal incomeCV;//Income Coefficient of Variation
@@ -27,9 +29,8 @@ public class BankAnalysisResult
     int bounceCount;//Bounce Count
 
     int accountAgeMonths;//Account Age in Months
-    boolean anomalyDetected;//Anomaly Detected
 
-    BankAnalysisResult(BigDecimal avgMonthlyIncome, BigDecimal incomeCV, BigDecimal expenseRatio, BigDecimal emiRatio, BigDecimal avgMonthlyBalance, int bounceCount, int accountAgeMonths, boolean anomalyDetected) {
+    public BankStatementAnalysis(BigDecimal avgMonthlyIncome, BigDecimal incomeCV, BigDecimal expenseRatio, BigDecimal emiRatio, BigDecimal avgMonthlyBalance, int bounceCount, int accountAgeMonths) {
         this.avgMonthlyIncome = avgMonthlyIncome;
         this.incomeCV = incomeCV;
         this.expenseRatio = expenseRatio;
@@ -37,7 +38,6 @@ public class BankAnalysisResult
         this.avgMonthlyBalance = avgMonthlyBalance;
         this.bounceCount = bounceCount;
         this.accountAgeMonths = accountAgeMonths;
-        this.anomalyDetected = anomalyDetected;
     }
 
     public BigDecimal getAvgMonthlyIncome() {
@@ -68,10 +68,6 @@ public class BankAnalysisResult
         return accountAgeMonths;
     }
 
-    public boolean isAnomalyDetected() {
-        return anomalyDetected;
-    }
-
     public void setAvgMonthlyIncome(BigDecimal avgMonthlyIncome) {
         this.avgMonthlyIncome = avgMonthlyIncome;
     }
@@ -98,10 +94,6 @@ public class BankAnalysisResult
 
     public void setAccountAgeMonths(int accountAgeMonths) {
         this.accountAgeMonths = accountAgeMonths;
-    }
-
-    public void setAnomalyDetected(boolean anomalyDetected) {
-        this.anomalyDetected = anomalyDetected;
     }
 }
 

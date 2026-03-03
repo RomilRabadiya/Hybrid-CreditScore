@@ -1,4 +1,4 @@
-package bank.bankStatement.CreditScore.Feature;
+package bank.bankStatement.CreditScore.MLFeatureAccumulator;
 
 import bank.bankStatement.CreditScore.BankTransactionEntity.BankTransaction;
 import bank.bankStatement.CreditScore.BankTransactionEntity.TransactionDirection;
@@ -21,14 +21,13 @@ import java.util.Map;
 //     avgMonthlyBalance   =>	Liquidity
 //     bounceCount         =>	Trust / repayment discipline
 //     accountAgeMonths    =>	Credit maturity
-//     anomalyDetected     =>	Fraud / risk guardrail
 
 //FeatureAccumulator is a class that is used to store the results of the bank statement analysis.
 //It Will COnvert Bank Transactions to Features of ML Model
 
 //All Bank transaction call accept method
 //At the end toResult method call to Make ML Model Input
-class FeatureAccumulator 
+public class FeatureAccumulator 
 {
 
     //Use For Calculate incomeCV
@@ -53,7 +52,7 @@ class FeatureAccumulator
     LocalDate lastDate = null;
 
     //Set Feature Accumulator For Each Transaction
-    void accept(BankTransaction t) {
+    public void addTransaction(BankTransaction t) {
 
         // ---- Account age tracking
         if (firstDate == null || t.getTransactionDate().isBefore(firstDate)) {
@@ -99,8 +98,8 @@ class FeatureAccumulator
         }
     }
 
-    //Convert Feature Accumulator to BankAnalysisResult => ML Model Input
-    BankAnalysisResult toResult() 
+    //Convert all accumulated transaction data into a BankStatementAnalysis (ML model input)
+    public BankStatementAnalysis toAnalysis() 
     {
 
         //Average Monthly Income = Total Income ÷ Number of Months
@@ -143,15 +142,14 @@ class FeatureAccumulator
                         ? 0
                         : (int) java.time.temporal.ChronoUnit.MONTHS.between(firstDate, lastDate);
 
-        return new BankAnalysisResult(
+        return new BankStatementAnalysis(
                 avgMonthlyIncome,
                 incomeCV,
                 expenseRatio,
                 emiRatio,
                 avgBalance,
                 bounceCount,
-                accountAgeMonths,
-                false // anomaly set later by ML
+                accountAgeMonths
         );
     }
 

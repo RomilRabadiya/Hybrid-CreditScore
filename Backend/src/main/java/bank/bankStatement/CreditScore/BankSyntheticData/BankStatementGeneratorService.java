@@ -16,13 +16,15 @@ import java.util.Random;
 //Stream is created only when needed
 import java.util.stream.Stream;
 
+// BankDataSimulationService : Use To Generate Bank Statement of 1 - year
+
 @Service
-public class BankDataSimulationService {
+public class BankStatementGeneratorService {
 
     private final RiskProfileBehaviorModel behaviorModel;
     private final BankTransactionFactory txnFactory;
 
-    public BankDataSimulationService(RiskProfileBehaviorModel behaviorModel, BankTransactionFactory txnFactory) {
+    public BankStatementGeneratorService(RiskProfileBehaviorModel behaviorModel, BankTransactionFactory txnFactory) {
         this.behaviorModel = behaviorModel;
         this.txnFactory = txnFactory;
     }
@@ -39,7 +41,7 @@ public class BankDataSimulationService {
         RiskProfile profile = behaviorModel.resolveProfile(pan);
 
         //Random Number Generator based on PAN hash
-        //Same PAN will generate same Random Number
+        //MIMP : ** Same PAN will generate same Random Number
         Random rng = new Random(pan.hashCode());
 
         // Initialize Balance (Mutable wrapper for use in Stream)

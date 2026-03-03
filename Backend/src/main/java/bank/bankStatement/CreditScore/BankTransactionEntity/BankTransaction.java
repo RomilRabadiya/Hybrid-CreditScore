@@ -47,7 +47,7 @@ public final class BankTransaction {
         this.balanceBefore = balanceBefore;
         this.description = description;
 
-        // ✅ Safe balance calculation
+        // Safe balance calculation
         this.balanceAfter = direction == TransactionDirection.INFLOW
                 ? balanceBefore.add(amount)
                 : balanceBefore.subtract(amount);
