@@ -3,6 +3,14 @@ import numpy as np
 import shap
 import warnings
 from app.core.model_registry import registry
+from app.schemas.credit import (
+    CreditDecisionResponse,
+    PDResponse,
+    AnomalyResponse,
+    RiskLabelResponse,
+    HybridScoreResponse,
+    RLRecommendationResponse,
+)
 
 warnings.filterwarnings('ignore')
 
@@ -226,7 +234,29 @@ class CreditDecisionEngine:
         # Get Top Factors
         response["RL_Recommendation"]["Rationales"] = self._top_shap_features(rl_vals, registry.q_features)
         
-        return response
+        return CreditDecisionResponse(
+            PD=PDResponse(
+                Probability_of_Default=round(float(pd_val), 4),
+                top_factors=response["PD"]["top_factors"],
+            ),
+            Anomaly=AnomalyResponse(
+                Anomaly_Score=round(float(if_score), 4),
+                Anomaly_Flag=anomaly_flag,
+                top_factors=response["Anomaly"]["top_factors"],
+            ),
+            RiskLabel=RiskLabelResponse(
+                Risk_Label=risk_label,
+                Drivers=response["RiskLabel"]["Drivers"],
+            ),
+            HybridScore=HybridScoreResponse(
+                Hybrid_Score=round(float(score_val), 1),
+                factors=response["HybridScore"]["factors"],
+            ),
+            RL_Recommendation=RLRecommendationResponse(
+                Recommendation=actions[action_idx],
+                Rationales=response["RL_Recommendation"]["Rationales"],
+            ),
+        )
 
 
 # Global engine instance

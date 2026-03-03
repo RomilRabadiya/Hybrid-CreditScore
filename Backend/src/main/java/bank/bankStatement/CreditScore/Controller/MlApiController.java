@@ -2,10 +2,12 @@ package bank.bankStatement.CreditScore.Controller;
 
 import bank.bankStatement.CreditScore.MLFeatureAccumulator.BankStatementAnalysis;
 import bank.bankStatement.CreditScore.MlAPICall.MlApiService;
+import bank.bankStatement.CreditScore.MlAPICall.MlResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/ml")
 public class MlApiController {
@@ -17,11 +19,11 @@ public class MlApiController {
     }
 
     @PostMapping("/credit-decision")
-    public ResponseEntity<String> getCreditDecision(
+    public ResponseEntity<MlResponse> getCreditDecision(
             @RequestBody BankStatementAnalysis request
-    ) 
+    )
     {
-        String response = mlApiService.getCreditDecision(request);
+        MlResponse response = mlApiService.getCreditDecision(request);
 
         if (response == null) {
             return ResponseEntity.internalServerError().build();

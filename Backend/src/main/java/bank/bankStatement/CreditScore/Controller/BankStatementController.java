@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // REST Controller for BankStatementGeneratorService
+
+// Request By Frontend
+// Response To Frontend
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/bank-statement")
 public class BankStatementController {

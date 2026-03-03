@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,54 +16,51 @@ public class MlApiService
     private String mlApiBaseUrl;
 
     private static final String CREDIT_DECISION_PATH = "/api/credit/decision";
-    
+
     // RestTemplate Reference : https://www.geeksforgeeks.org/springboot/spring-resttemplate/
     private final RestTemplate restTemplate;
 
-    public MlApiService(RestTemplate restTemplate) 
+    public MlApiService(RestTemplate restTemplate)
     {
         this.restTemplate = restTemplate;
     }
 
-    public String getCreditDecision(BankStatementAnalysis request)
+    public MlResponse getCreditDecision(BankStatementAnalysis request)
     {
-
         String url = mlApiBaseUrl + CREDIT_DECISION_PATH;
 
-        // Setting the headers for the request
+        // Setting Content-Type: application/json header
         HttpHeaders headers = new HttpHeaders();
-        // Setting the content type to JSON
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Creating the HTTP entity
+        // Wrap request body + headers into HttpEntity
         HttpEntity<BankStatementAnalysis> httpEntity = new HttpEntity<>(request, headers);
 
-        try 
+        try
         {
-            ResponseEntity<String> response = restTemplate.postForEntity(
+            // Call FastAPI ML engine and deserialize response into MlResponse
+
+            // MIMP : JSON Object To Java Object 
+            // For this we need to use @JsonProperty annotation in the MlResponse class
+            // @JsonProperty is used to map JSON object to Java object
+            // API-CreditDecisionEngine returns JSON object and we are deserializing it into MlResponse class
+            
+            MlResponse response = restTemplate.postForObject(
                     url,
                     httpEntity,
-                    String.class
+                    MlResponse.class
             );
 
-            System.out.println(response.getBody());
-            
-            // MlResponse response = restTemplate.postForObject(
-            //         url,
-            //         httpEntity,
-            //         MlResponse.class
-            // );
+            if (response == null)
+            {
+                throw new RuntimeException("ML API returned null response");
+            }
 
-            // if (response == null) {
-            //     throw new Exception();
-            // }
-
-            return response.getBody();
-
-        } 
-        catch (Exception e) 
+            return response;
+        }
+        catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            System.err.println("[MlApiService] Error calling ML API: " + e.getMessage());
         }
 
         return null;

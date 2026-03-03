@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 // REST Controller for FeatureExtractorService
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/feature-extractor")
 public class FeatureExtractorController {
