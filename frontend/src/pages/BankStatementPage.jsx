@@ -4,19 +4,17 @@ import BankStatementInput from "../components/BankStatementInput";
 import BankStatement from "../components/BankStatement";
 
 // BankStatementPage : Orchestrator Page Component
-// - Holds all state (pan, accountId, transactions, loading, error)
+// - Holds all state (pan, accountId, transactions)
 // - Calls the API
 // - Passes data down to BankStatementInput and BankStatement
 
 function BankStatementPage() {
+    // pan is use for taking input from user
     const [pan, setPan] = useState("");
+    // accountId is use for taking input from user
     const [accountId, setAccountId] = useState("");
+    // transactions is an array of objects
     const [transactions, setTransactions] = useState([]);
-
-    // Loading State : 
-    const [loading, setLoading] = useState(false);
-    // Error State : 
-    const [error, setError] = useState("");
 
     const handleGenerate = async () => {
         if (!pan || !accountId) {
@@ -25,17 +23,12 @@ function BankStatementPage() {
         }
 
         try {
-            setLoading(true);
-            setError("");
-
             const data = await generateBankStatement(pan, accountId);
             setTransactions(data);
         }
         catch (err) {
-            setError("Failed to fetch bank statement");
-        }
-        finally {
-            setLoading(false);
+            console.error("Error fetching bank statement:", err);
+            alert("Failed to fetch bank statement");
         }
     };
 
@@ -50,13 +43,9 @@ function BankStatementPage() {
                 accountId={accountId}
                 setAccountId={setAccountId}
                 onGenerate={handleGenerate}
-                loading={loading}
             />
 
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            {/* Transactions Table Component */}
+            {/* Transactions Table Component Pass transactions as props*/}
             <BankStatement transactions={transactions} />
         </div>
     );

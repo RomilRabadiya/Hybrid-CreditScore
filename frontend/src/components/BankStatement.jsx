@@ -5,10 +5,11 @@ function BankStatement({ transactions }) {
     // If no transactions, render nothing
     if (transactions.length === 0) return null;
 
+    // Print the transactions in Table format
     return (
         <div>
-            <p style={{ color: "#555" }}>
-                ✅ {transactions.length} transactions generated
+            <p>
+                {transactions.length} transactions generated
             </p>
 
             <table border="1" cellPadding="8">

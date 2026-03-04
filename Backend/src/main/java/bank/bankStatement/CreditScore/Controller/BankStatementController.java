@@ -1,7 +1,8 @@
 package bank.bankStatement.CreditScore.Controller;
 
-import bank.bankStatement.CreditScore.BankTransactionEntity.BankTransaction;
+import bank.bankStatement.CreditScore.BankSyntheticData.BankStatementCsvService;
 import bank.bankStatement.CreditScore.BankSyntheticData.BankStatementGeneratorService;
+import bank.bankStatement.CreditScore.BankTransactionEntity.BankTransaction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,11 @@ import java.util.stream.Stream;
 @RequestMapping("/bank-statement")
 public class BankStatementController {
 
+    private final BankStatementCsvService runtimeService;
     private final BankStatementGeneratorService bankStatementGeneratorService;
 
-    public BankStatementController(BankStatementGeneratorService bankStatementGeneratorService) 
-    {
+    public BankStatementController(BankStatementCsvService runtimeService , BankStatementGeneratorService bankStatementGeneratorService) {
+        this.runtimeService = runtimeService;
         this.bankStatementGeneratorService = bankStatementGeneratorService;
     }
 
@@ -42,5 +44,16 @@ public class BankStatementController {
         List<BankTransaction> transactions = transactionStream.collect(Collectors.toList());
 
         return ResponseEntity.ok(transactions);
+    }
+
+    @GetMapping("/generateCsv")
+    public String generateCsvStatement(@RequestParam String pan,
+            @RequestParam String accountId) {
+
+        return runtimeService.generateCsv(
+                pan,
+                accountId,
+                LocalDate.now().minusYears(1)
+        );
     }
 }

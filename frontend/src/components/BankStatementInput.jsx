@@ -1,7 +1,13 @@
 // BankStatementInput Component
 // Responsibility : Render the PAN + AccountID input form and trigger data fetch
 
-function BankStatementInput({ pan, setPan, accountId, setAccountId, onGenerate, loading }) {
+function BankStatementInput({ pan, setPan, accountId, setAccountId, onGenerate }) {
+    // Take PAN and AccountID as input and trigger data fetch
+    // And PAN and AccountID are passed as props to the BankStatement component by calling setPan and setAccountId
+    
+    // When Click on Generate Statement button, onGenerate function is called
+    // Internally it calls the generateBankStatement function from the API
+    // It will Generate the bank statement and return the transactions : Logic in Backend
     return (
         <div style={{ marginBottom: "20px" }}>
 
@@ -10,7 +16,6 @@ function BankStatementInput({ pan, setPan, accountId, setAccountId, onGenerate, 
                 placeholder="Enter PAN"
                 value={pan}
                 onChange={(e) => setPan(e.target.value)}
-                style={{ marginRight: "10px" }}
             />
 
             <input
@@ -18,11 +23,10 @@ function BankStatementInput({ pan, setPan, accountId, setAccountId, onGenerate, 
                 placeholder="Enter Account ID"
                 value={accountId}
                 onChange={(e) => setAccountId(e.target.value)}
-                style={{ marginRight: "10px" }}
             />
 
-            <button onClick={onGenerate} disabled={loading}>
-                {loading ? "Loading..." : "Generate Statement"}
+            <button onClick={onGenerate}>
+                Generate Statement
             </button>
 
         </div>
