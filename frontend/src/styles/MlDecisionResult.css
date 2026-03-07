@@ -1,0 +1,353 @@
+/* ── Scorecard Grid — Industry Fintech Panel ─────────────── */
+.decision-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin-top: 3rem;
+
+    /* Dot-grid pattern — used in Notion, Linear, Figma analytics panels */
+    background-color: #f5f7ff;
+    background-image:
+        /* Radial vignette — fades edges to white for floating-panel feel */
+        radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0) 60%, #f5f7ff 100%),
+        /* Dot grid — 20px spacing, indigo dots */
+        radial-gradient(circle, rgba(79, 70, 229, 0.18) 1px, transparent 1px);
+    background-size:
+        100% 100%,
+        20px 20px;
+    background-position: 0 0, 0 0;
+
+    border-radius: 20px;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid rgba(79, 70, 229, 0.12);
+    box-shadow:
+        inset 0 2px 12px rgba(79, 70, 229, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.07);
+}
+
+/* ── Base Card ───────────────────────────────────────────── */
+.decision-card-inner {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.25rem, 2.5vw, 2.25rem);
+    height: auto;
+    /* content-driven — no fixed stretch */
+    min-height: 0;
+    /* allow flex children to shrink */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.decision-card-inner:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-premium);
+}
+
+/* ── Card Title (e.g. "Hybrid Score", "Anomaly Detection") ── */
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-data);
+    font-size: clamp(0.9rem, 1.8vw, 2rem);
+    /* fluid: compact on small, big on wide */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin: 0 0 1.1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border-light);
+    line-height: 1.2;
+}
+
+.card-title-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+}
+
+/* ── Large Score / Primary Value ─────────────────────────── */
+.score-display {
+    font-family: var(--font-data);
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text-main);
+    margin: 0.5rem 0 0;
+}
+
+.score-unit {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-left: 6px;
+    letter-spacing: 0.02em;
+}
+
+/* ── Progress Bar ────────────────────────────────────────── */
+.progress-container {
+    width: 100%;
+    height: 7px;
+    background: var(--bg-elevated);
+    border-radius: 999px;
+    margin: 1.25rem 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 999px;
+    transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ── Status / Badge Tag ──────────────────────────────────── */
+.status-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 11px;
+    border-radius: 6px;
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+/* ── Anomaly Score Label ─────────────────────────────────── */
+.anomaly-score-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 0.75rem;
+    padding: 6px 14px;
+    background: rgba(79, 70, 229, 0.06);
+    border: 1px solid rgba(79, 70, 229, 0.18);
+    border-radius: 8px;
+    font-family: var(--font-data);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-soft);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.anomaly-score-label .score-key {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.anomaly-score-label .score-val {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: 0.02em;
+    margin-left: 6px;
+    color: var(--primary);
+}
+
+/* ── Outcome Status (NOMINAL / ANOMALOUS) ────────────────── */
+.outcome-status {
+    font-family: var(--font-data);
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.03em;
+    margin: 0.5rem 0 0;
+}
+
+/* ── Risk Label Value ────────────────────────────────────── */
+.risk-value {
+    font-family: var(--font-data);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    margin: 0.5rem 0 0;
+    line-height: 1.2;
+}
+
+/* ── Factor Pills / List ─────────────────────────────────── */
+.factor-list {
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.factor-list li {
+    font-family: var(--font-data);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem 1rem;
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    line-height: 1.4;
+}
+
+.factor-list li:hover {
+    transform: translateX(6px);
+    background: #ffffff;
+    border-color: rgba(79, 70, 229, 0.22);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+}
+
+.factor-list li::before {
+    content: "⟩";
+    color: var(--accent);
+    font-weight: 900;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ── Hybrid Score Header Row ─────────────────────────────── */
+.hybrid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 0;
+    gap: 1rem;
+}
+
+.hybrid-meta {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.hybrid-confidence {
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+/* ── Factor Chip Row (below Hybrid progress bar) ─────────── */
+.factor-chip-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.65rem;
+    margin-top: 0.5rem;
+}
+
+.factor-chip {
+    padding: 9px 12px;
+    background: var(--bg-page);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    color: var(--text-main);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* ── Recommendation Box ──────────────────────────────────── */
+.recommendation-box {
+    margin-top: 1.75rem;
+    padding: 2.5rem 3rem;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    border-left: 6px solid var(--accent);
+    position: relative;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.recommendation-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 18px;
+    background: rgba(217, 119, 6, 0.08);
+    color: var(--accent);
+    border: 1px solid rgba(217, 119, 6, 0.28);
+    font-family: var(--font-data);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 1.25rem;
+    border-radius: 8px;
+}
+
+.recommendation-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--accent);
+    margin: 0 0 1rem;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+}
+
+.recommendation-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 1.5rem 0;
+}
+
+/* ── Wide-span Utility (Hybrid Score + Recommendation) ──── */
+/* Cards with this class span all available columns */
+.col-span-wide {
+    grid-column: 1 / -1;
+}
+
+/* ── Fluid Responsive ────────────────────────────────────── */
+/* Grid is already auto-fill — cards reflow automatically.   */
+/* Only minor type + spacing tweaks needed per breakpoint.   */
+@media (max-width: 768px) {
+    .score-display {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    .recommendation-title {
+        font-size: clamp(1.4rem, 4vw, 2.2rem);
+    }
+
+    .recommendation-box {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hybrid-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .hybrid-meta {
+        text-align: left;
+    }
+}
+
+.recommendation-box {
+    padding: 1.75rem;
+}

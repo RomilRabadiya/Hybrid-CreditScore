@@ -35,21 +35,30 @@ const VisualizationPage = () => {
     };
 
     return (
-        <div>
-            <h2>Model Explainability</h2>
-            <p>
-                Visualize how the ML model makes decisions using SHAP values.
-            </p>
+        <div className="page-container" style={{ perspective: '1000px' }}>
+            <div className="dashboard-header" style={{ background: 'var(--grad-premium)', border: 'none' }}>
+                <span className="status-tag" style={{ background: 'var(--accent)', color: '#0f172a', marginBottom: '1.5rem', display: 'inline-block' }}>
+                    Process: SHAP Interpretation
+                </span>
+                <h1 style={{ fontWeight: 900, fontSize: '3.5rem' }}>Model Explanation</h1>
+                <p>Feature importance and explainability analysis for model interpretation.</p>
+            </div>
 
-            <BankStatementInput
-                pan={pan}
-                setPan={setPan}
-                accountId={accountId}
-                setAccountId={setAccountId}
-                onGenerate={handleProcess}
-            />
+            <div className="step-card" style={{ animationDelay: '0.1s' }}>
+                <BankStatementInput
+                    pan={pan}
+                    setPan={setPan}
+                    accountId={accountId}
+                    setAccountId={setAccountId}
+                    onGenerate={handleProcess}
+                />
+            </div>
 
-            {analysis && <ExplainVisualization analysis={analysis} />}
+            {analysis && (
+                <div className="step-card" style={{ animationDelay: '0.3s' }}>
+                    <ExplainVisualization analysis={analysis} />
+                </div>
+            )}
         </div>
     );
 };

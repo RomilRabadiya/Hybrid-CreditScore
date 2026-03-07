@@ -21,8 +21,8 @@ from typing import Optional, List
 class CreditRequest(BaseModel):
     avgMonthlyIncome: float = Field(..., gt=0)
     incomeCV: float = Field(..., ge=0)
-    expenseRatio: float = Field(..., ge=0, le=1)
-    emiRatio: float = Field(..., ge=0, le=1)
+    expenseRatio: float = Field(..., ge=0)
+    emiRatio: float = Field(..., ge=0)
     avgMonthlyBalance: float = Field(..., ge=0)
     bounceCount: int = Field(..., ge=0)
     accountAgeMonths: int = Field(..., ge=0)

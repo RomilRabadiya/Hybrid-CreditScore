@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
+:root {
+    /* Premium Light Base */
+    --bg-page: #f8fafc;
+    /* Soft White */
+    --bg-surface: #ffffff;
+    /* Pure White */
+    --bg-elevated: #f1f5f9;
+    /* Light Gray */
+    --bg-hover: #e2e8f0;
+    /* Slight Darker Hover */
+
+    /* Crisp Accent Palette */
+    --primary: #4f46e5;
+    /* Royal Blue */
+    --primary-light: #6366f1;
+    /* Vibrant Indigo */
+    --primary-glow: #818cf8;
+    --secondary: #0284c7;
+    /* Ocean Blue */
+    --accent: #d97706;
+    /* Warm Gold/Amber */
+
+    /* Semantic Status */
+    --success: #059669;
+    /* Deep Emerald */
+    --success-glow: #10b981;
+    --warning: #d97706;
+    --error: #dc2626;
+    /* Bright Red */
+    --error-glow: #ef4444;
+
+    /* Frosted Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    /* Subtle border for definition */
+    --glass-blur: blur(24px);
+
+    /* Typography - High Contrast for Readability */
+    --text-main: #020617;
+    /* Near Black */
+    --text-soft: #1e293b;
+    /* Deep Gray */
+    --text-muted: #334155;
+    /* Medium Gray */
+
+    /* Elegant Diffusion Shadows */
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.1), 0 0 20px rgba(79, 70, 229, 0.05);
+    /* Slight tint to the massive shadow */
+
+    /* Ambient Highlighting */
+    --neon-glow: 0 0 15px rgba(79, 70, 229, 0.2), 0 0 30px rgba(2, 132, 199, 0.1);
+    --success-neon: 0 0 15px rgba(5, 150, 105, 0.2);
+    --gold-neon: 0 0 20px rgba(217, 119, 6, 0.2);
+
+    /* Fonts */
+    --font-main: 'Inter', system-ui, sans-serif;
+    --font-data: 'Inter', system-ui, sans-serif;
+
+    /* Borders */
+    --border-light: #e2e8f0;
+    /* Very light gray structural borders */
+    --radius-md: 16px;
+    --radius-lg: 24px;
+}
+
+/* Base Styles */
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    min-height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 700;
+    margin: 0 0 1rem;
+    letter-spacing: -0.03em;
+    color: var(--text-main);
+}
+
+/* Frosted Nav */
+.navbar {
+    display: flex;
+    justify-content: center;
+    padding: 1.25rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    /* Lighter shadow */
+}
+
+.nav-link {
+    color: var(--text-soft);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary);
+    text-shadow: none;
+    /* Removed neon glow text shadow for clarity in light mode */
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Subdued shadow on hover line */
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.page-container {
+    max-width: 1300px;
+    margin: 4rem auto;
+    padding: 0 24px;
+}
+
+/* Elegant Action Buttons */
+.btn {
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    border: 1px solid var(--primary);
+    background: rgba(79, 70, 229, 0.05);
+    /* Very faint primary tint */
+    color: var(--primary);
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient fill on hover */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.3);
+    /* Stronger diffusion shadow underneath */
+}
+
+.btn:hover:not(:disabled)::before {
+    opacity: 1;
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    border-color: var(--border-light);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    background: var(--bg-elevated);
+}
+
+/* Soft Structure Cards */
+.card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    /* Constant slight elevation */
+}
+
+.card:hover {
+    border-color: rgba(79, 70, 229, 0.3);
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-2px);
+}
+
+/* Global Data Typography */
+.data-value,
+.score-number,
+[class*="value"],
+[class*="amount"] {
+    font-family: var(--font-data);
+}

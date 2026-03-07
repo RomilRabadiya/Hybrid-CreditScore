@@ -1,34 +1,44 @@
 // BankStatementInput Component
 // Responsibility : Render the PAN + AccountID input form and trigger data fetch
 
+import "../styles/BankStatementInput.css";
+
+// Input Component For Bank Statement : PAN and Account ID
+// Responsibility : Get PAN and Account ID from user
+// onGenerate is the function called when the button is clicked
+
 function BankStatementInput({ pan, setPan, accountId, setAccountId, onGenerate }) {
-    // Take PAN and AccountID as input and trigger data fetch
-    // And PAN and AccountID are passed as props to the BankStatement component by calling setPan and setAccountId
-    
-    // When Click on Generate Statement button, onGenerate function is called
-    // Internally it calls the generateBankStatement function from the API
-    // It will Generate the bank statement and return the transactions : Logic in Backend
     return (
-        <div style={{ marginBottom: "20px" }}>
-
-            <input
-                type="text"
-                placeholder="Enter PAN"
-                value={pan}
-                onChange={(e) => setPan(e.target.value)}
-            />
-
-            <input
-                type="text"
-                placeholder="Enter Account ID"
-                value={accountId}
-                onChange={(e) => setAccountId(e.target.value)}
-            />
-
-            <button onClick={onGenerate}>
-                Generate Statement
-            </button>
-
+        <div className="card">
+            <h3 style={{ marginBottom: '1.5rem' }}>🔐 Account Verification</h3>
+            <div className="input-container">
+                <div className="input-group">
+                    <label>Tax Identification (PAN)</label>
+                    <input
+                        className="input-field"
+                        type="text"
+                        placeholder="ABCDE1234F"
+                        value={pan}
+                        onChange={(e) => setPan(e.target.value)}
+                    />
+                </div>
+                <div className="input-group">
+                    <label>Account Reference ID</label>
+                    <input
+                        className="input-field"
+                        type="text"
+                        placeholder="ACC-XXXXX"
+                        value={accountId}
+                        onChange={(e) => setAccountId(e.target.value)}
+                    />
+                </div>
+                <button
+                    className="btn generate-btn"
+                    onClick={onGenerate}
+                >
+                    🔄 Generate Activity
+                </button>
+            </div>
         </div>
     );
 }

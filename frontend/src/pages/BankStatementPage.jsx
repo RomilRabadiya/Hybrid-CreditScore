@@ -33,7 +33,7 @@ function BankStatementPage() {
     };
 
     return (
-        <div style={{ padding: "20px", minHeight: "100vh", backgroundColor: "#ffffff", color: "#213547" }}>
+        <div className="page-container" style={{ padding: "20px", minHeight: "100vh", backgroundColor: "#ffffff", color: "#213547" }}>
             <h2>Bank Statement Generator</h2>
 
             {/* Input Form Component */}

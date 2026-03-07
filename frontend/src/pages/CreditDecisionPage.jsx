@@ -41,7 +41,7 @@ function CreditDecisionPage() {
     };
 
     return (
-        <div>
+        <div className="page-container">
             <h2>Hybrid Credit Decision</h2>
             <p>
                 Full pipeline: Bank Statement → Feature Extraction → ML Credit Decision

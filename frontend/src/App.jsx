@@ -3,33 +3,21 @@ import BankStatementPage from "./pages/BankStatementPage";
 import FeatureExtractorPage from "./pages/FeatureExtractorPage";
 import CreditDecisionPage from "./pages/CreditDecisionPage";
 import VisualizationPage from "./pages/VisualizationPage";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <Router>
       {/* Nav Bar */}
-      <nav style={{
-        padding: "12px 20px",
-        backgroundColor: "#4f6ef7",
-        display: "flex",
-        gap: "20px"
-      }}>
-        <Link to="/" style={{ color: "#fff", textDecoration: "none", fontWeight: "bold" }}>
-          🏦 Bank Statement
-        </Link>
-        <Link to="/feature-extractor" style={{ color: "#fff", textDecoration: "none", fontWeight: "bold" }}>
-          🔬 Feature Extractor
-        </Link>
-        <Link to="/credit-decision" style={{ color: "#fff", textDecoration: "none", fontWeight: "bold" }}>
-          🏆 Credit Decision
-        </Link>
-        <Link to="/explain" style={{ color: "#fff", textDecoration: "none", fontWeight: "bold" }}>
-          🧠 Model Explanation
+      <nav className="navbar">
+        <Link to="/" className="nav-link">
+          Hybrid Credit Score Dashboard
         </Link>
       </nav>
 
       <Routes>
-        <Route path="/" element={<BankStatementPage />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/statement" element={<BankStatementPage />} />
         <Route path="/feature-extractor" element={<FeatureExtractorPage />} />
         <Route path="/credit-decision" element={<CreditDecisionPage />} />
         <Route path="/explain" element={<VisualizationPage />} />

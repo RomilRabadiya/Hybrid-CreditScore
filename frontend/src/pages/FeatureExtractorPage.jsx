@@ -36,7 +36,7 @@ function FeatureExtractorPage() {
     };
 
     return (
-        <div >
+        <div className="page-container">
             <h2>ML Feature Extractor</h2>
             <p>
                 Generates a bank statement and extracts 7 ML features used by the Hybrid Credit Score model.

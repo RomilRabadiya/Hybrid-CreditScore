@@ -1,4 +1,4 @@
-/* Global Reset - Clean base styles */
+/* Ethereal Grid Atmosphere */
 *,
 *::before,
 *::after {
@@ -6,7 +6,6 @@
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -14,42 +13,78 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
-  color: #213547;
-  min-height: 100vh;
+  background-color: #f8fafc;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
-button {
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  padding: 0.5em 1.2em;
-  font-size: 1em;
-  font-family: inherit;
-  background-color: #4f6ef7;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s;
+/* Clean Datamesh Grid */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  /* Very faint slate blue grid lines representing data layout on a white page */
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center center;
+  perspective: 1000px;
+  transform-origin: center top;
+  animation: gridMove 25s linear infinite;
+  pointer-events: none;
 }
 
-button:hover {
-  background-color: #3a56d4;
+/* Soft Ambient Lighting */
+#root::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.04), transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.03), transparent 50%);
+  pointer-events: none;
 }
 
-input[type="text"] {
-  padding: 0.5em 0.8em;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  color: #213547;
-  background-color: #fff;
+@keyframes gridMove {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(60px);
+  }
 }
 
-input[type="text"]:focus {
-  border-color: #4f6ef7;
+/* Light UI Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Selection */
+::selection {
+  background: rgba(79, 70, 229, 0.2);
+  color: #4f46e5;
 }

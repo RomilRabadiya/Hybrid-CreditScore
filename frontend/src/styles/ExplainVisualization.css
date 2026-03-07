@@ -1,0 +1,216 @@
+/* Crisp Structural Data Visualization */
+
+.viz-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    margin-top: 3rem;
+}
+
+.viz-section {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.viz-section:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.viz-section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.viz-section:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.viz-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-left: 6px solid var(--secondary);
+    /* Distinct left border */
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.5s ease;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    /* Soft widespread shadow */
+}
+
+/* Subtle pattern for texture */
+.viz-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background:
+        linear-gradient(rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 70, 229, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.viz-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(2, 132, 199, 0.3);
+    /* Ocean blue border tint */
+    box-shadow: var(--shadow-premium), 0 0 20px rgba(2, 132, 199, 0.05);
+    /* Slight accent shadow */
+}
+
+.viz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 2.5rem 3.5rem;
+    background: var(--bg-elevated);
+    /* Light gray header */
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+    z-index: 1;
+}
+
+.viz-title-area h4 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.viz-metadata {
+    font-family: var(--font-data);
+    font-size: 0.8rem;
+    color: var(--secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 0.15em;
+}
+
+/* Keeping Image Area High Contrast (Dark) to frame the SHAP diagram optimally, even in light mode, as a "screen" effect */
+.viz-image-container {
+    background: #f8fafc;
+    /* Very faint gray background for framing */
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 4rem;
+    z-index: 1;
+    overflow: hidden;
+    border-top: 1px solid var(--border-light);
+}
+
+.shap-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    /* Subtle rim and drop shadow */
+    position: relative;
+    z-index: 2;
+    background: white;
+    /* Force white backing if the PNG is transparent */
+}
+
+/* Scanning effect adapted for light mode - subtle blue sweep */
+.viz-image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--secondary);
+    box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+    opacity: 0.3;
+    animation: scan 4s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 3;
+}
+
+@keyframes scan {
+    0% {
+        top: 0%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.5;
+    }
+
+    90% {
+        opacity: 0.5;
+    }
+
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+.viz-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    color: var(--text-soft);
+    font-family: var(--font-data);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.audit-tag {
+    position: absolute;
+    top: 2.5rem;
+    right: 3.5rem;
+    padding: 8px 18px;
+    background: #fffbeb;
+    /* Amber-50 */
+    color: var(--accent);
+    border-radius: 8px;
+    font-family: var(--font-data);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    border: 1px solid #fcd34d;
+    /* Amber-300 */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.viz-loading-ring {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f1f5f9;
+    border-top-color: var(--secondary);
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
