@@ -1,0 +1,296 @@
+/* Architecture Visualization Styles */
+.architecture-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.architecture-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+    padding-bottom: 10rem;
+}
+
+.architecture-section {
+    width: 100%;
+    max-width: 1200px;
+    /* Increased max-width for expanded cards */
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-premium);
+}
+
+.section-title-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.section-number {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary);
+    opacity: 0.2;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.flow-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* PAN Card */
+.pan-card-visual {
+    background: #0f172a;
+    border: 2px solid #334155;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card-label {
+    font-size: 1.4rem;
+    color: var(--primary-glow);
+    letter-spacing: 0.2em;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.pan-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    color: #f8fafc;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+.pan-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.6rem;
+    background: var(--success);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* Connectors */
+.connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.arrow-down {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--primary), transparent);
+    position: relative;
+}
+
+.arrow-down::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid var(--primary);
+}
+
+.connector-label {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+}
+
+/* Statement Table */
+.statement-visual {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.mini-table-container {
+    overflow-x: auto;
+}
+
+.mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.mini-table th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.mini-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    color: var(--text-soft);
+}
+
+.amount.negative {
+    color: var(--error);
+    font-weight: 600;
+}
+
+/* Expanded Feature Layout */
+.features-visual {
+    width: 100%;
+}
+
+.feature-grid-expanded {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    /* Larger base size */
+    gap: 1.5rem;
+}
+
+.feature-card-expanded {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.feature-card-expanded:hover {
+    border-color: var(--primary-glow);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.75rem;
+}
+
+.f-icon {
+    font-size: 1.5rem;
+}
+
+.f-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.f-main-value {
+    display: flex;
+    flex-direction: column;
+}
+
+.f-label {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.f-value {
+    font-size: 1.75rem;
+    font-weight: 900;
+}
+
+.f-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.f-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.f-detail-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.f-detail-text {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    line-height: 1.4;
+}
+
+.f-detail-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    background: #0f172a;
+    color: #34d399;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: block;
+}
+
+.f-impact-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+}
+
+.f-impact-badge.positive {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.f-impact-badge.negative {
+    background: #fef2f2;
+    color: #dc2626;
+}

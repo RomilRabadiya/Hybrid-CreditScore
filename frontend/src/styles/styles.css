@@ -91,6 +91,8 @@ h4 {
 .navbar {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
     padding: 1.25rem 2rem;
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
@@ -100,7 +102,6 @@ h4 {
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    /* Lighter shadow */
 }
 
 .nav-link {

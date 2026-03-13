@@ -1,0 +1,328 @@
+/* Risk Classification Stage - Emerald Industrial CSS */
+
+.risk-model-premium-section {
+    width: 100%;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.risk-premium-card {
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 22px;
+    padding: 2rem;
+    box-shadow:
+        0 6px 24px rgba(0, 0, 0, 0.06),
+        0 1px 2px rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+.risk-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.algo-icon-emerald {
+    width: 66px;
+    height: 66px;
+    background: #ecfdf5;
+    border: 1px solid #d1fae5;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.risk-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+/* Common ML Text Styles */
+.algo-title-text {
+    font-size: 2.8rem;
+    font-weight: 950;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.algo-subtitle {
+    font-size: 1.1rem;
+    color: #10b981;
+    /* Emerald Primary */
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+}
+
+.ml-content-label {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.ml-desc-text {
+    font-size: 1.35rem;
+    color: var(--text-soft);
+    line-height: 1.8;
+    margin-bottom: 1.4rem;
+}
+
+/* Visualization */
+.industrial-flow-visual {
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 2.5rem;
+    /* Increased padding */
+    border: 1px solid #f1f5f9;
+    display: grid;
+    grid-template-columns: 2fr auto 1fr;
+    /* Wider column for signals */
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.flow-label {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.weighted-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.weight-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    /* More gap */
+}
+
+.w-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #475569;
+    text-transform: uppercase;
+    width: 200px;
+    /* Reduced slightly to give space to bars, while keeping font size large */
+}
+
+.w-bar-bg {
+    flex: 1;
+    min-width: 120px;
+    /* Force bars to be visible */
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.w-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.w-val {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #1e293b;
+    width: 60px;
+    /* Slightly wider for the large font */
+    text-align: right;
+}
+
+.flow-connector {
+    width: 300px;
+    height: 180px;
+}
+
+.path-stroke-emerald {
+    fill: none;
+    stroke: #10b981;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    opacity: 0.45;
+}
+
+/* Engine Node */
+.engine-node-emerald {
+    width: 180px;
+    height: 180px;
+    background: #ffffff;
+    border: 3px solid #10b981;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    box-shadow: 0 10px 40px rgba(16, 185, 129, 0.15);
+}
+
+.engine-node-emerald .engine-sub {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #10b981;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.engine-node-emerald .engine-main {
+    font-size: 1.4rem;
+    font-weight: 950;
+    color: var(--text-main);
+    margin-top: 0.4rem;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.engine-shadow-emerald {
+    position: absolute;
+    inset: -12px;
+    border: 2px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50%;
+    animation: enginePulseEmerald 2.8s infinite ease-out;
+}
+
+@keyframes enginePulseEmerald {
+    from {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    to {
+        transform: scale(1.25);
+        opacity: 0;
+    }
+}
+
+/* Tier Selection Pillar */
+.tier-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.tier-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    padding: 1.2rem;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.tier-indicator {
+    width: 8px;
+    height: 36px;
+    border-radius: 4px;
+}
+
+.tier-label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 950;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.tier-desc {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Performance Visual */
+.performance-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 1.5rem;
+}
+
+.perf-summary-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.confidence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.p-label {
+    font-size: 1.3rem;
+    font-weight: 850;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.p-val {
+    font-size: 1.8rem;
+    font-weight: 950;
+    color: #10b981;
+}
+
+.confidence-meter-bg {
+    height: 10px;
+    background: #f1f5f9;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+
+.confidence-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 5px;
+}
+
+.c-meta {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #94a3b8;
+    margin: 0;
+    text-align: right;
+}
+
+@media (max-width: 1100px) {
+    .risk-layout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .industrial-flow-visual {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .flow-connector {
+        display: none;
+    }
+}

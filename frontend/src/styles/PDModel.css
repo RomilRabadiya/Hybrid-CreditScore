@@ -1,0 +1,234 @@
+/* PD Model Stage - Premium CSS */
+
+.pd-model-premium-section {
+    margin-bottom: 4rem;
+    width: 100%;
+}
+
+.pd-premium-card {
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 22px;
+    padding: 2.5rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Business Context Header */
+.pd-business-context {
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    /* User Override */
+    border: 1px solid #f1f5f9;
+}
+
+.context-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.context-grid {
+    display: block;
+    /* Use full width */
+    width: 100%;
+}
+
+.context-text-block {
+    width: 100%;
+}
+
+.context-text-block p {
+    font-size: 1.15rem;
+    /* Slightly larger */
+    color: var(--text-soft);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    /* Force full width */
+}
+
+.pd-definition-box {
+    background: #ffffff;
+    border-left: 4px solid var(--primary);
+    padding: 1rem 1.25rem;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.def-label {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--text-main);
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.def-text {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.def-text em {
+    display: block;
+    margin-top: 0.5rem;
+    color: #64748b;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.context-comparison-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 1.25rem;
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.comp-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.comp-item.highlight .comp-label {
+    color: var(--primary);
+}
+
+.comp-label {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.comp-desc {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.comp-vs {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #cbd5e1;
+}
+
+/* Stage Header */
+.pd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Visualization */
+.pd-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.path-stroke-gold {
+    fill: none;
+    stroke: #b45309;
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.3;
+}
+
+@keyframes flowDataPD {
+    0% {
+        stroke-dashoffset: 48;
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0.2;
+    }
+}
+
+.engine-node-gold {
+    width: 140px;
+    height: 140px;
+    background: #fffbeb;
+    border: 2px solid #d97706;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(217, 119, 6, 0.12);
+}
+
+.engine-node-gold .engine-main {
+    font-size: 1.1rem;
+    font-weight: 950;
+    color: #92400e;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.performance-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+.perf-summary-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.perf-summary-card .p-label {
+    font-size: 1.3rem;
+    font-weight: 850;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.perf-summary-card .p-val {
+    font-size: 2.2rem;
+    font-weight: 950;
+    color: #1e293b;
+}
+
+.perf-summary-card.highlight-gold .p-val {
+    color: #d97706;
+}
+
+@media (max-width: 1100px) {
+    .pd-layout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .context-grid {
+        grid-template-columns: 1fr;
+    }
+}

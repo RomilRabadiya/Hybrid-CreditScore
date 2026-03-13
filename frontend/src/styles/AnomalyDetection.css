@@ -1,0 +1,355 @@
+.anomaly-detection-premium-section {
+    width: 100%;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.anomaly-premium-card {
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 22px;
+    padding: 2rem;
+    box-shadow:
+        0 6px 24px rgba(0, 0, 0, 0.06),
+        0 1px 2px rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+.anomaly-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.algo-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.algo-icon {
+    width: 66px;
+    height: 66px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    /* Increased visibility */
+}
+
+.algo-title-text {
+    font-size: 2.8rem;
+    font-weight: 950;
+    /* Heavier for visibility */
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.algo-subtitle {
+    font-size: 1.1rem;
+    /* Increased size */
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    /* More spacing for visibility */
+}
+
+.anomaly-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.ml-card-content-premium {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.ml-content-label {
+    font-size: 1.1rem;
+    /* Increased for maximum visibility */
+    font-weight: 900;
+    color: #64748b;
+    /* Sharper gray */
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.ml-desc-text {
+    font-size: 1.35rem;
+    /* Increased visibility */
+    color: var(--text-soft);
+    line-height: 1.8;
+    margin-bottom: 1.4rem;
+}
+
+.industrial-flow-visual {
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 2rem;
+    border: 1px solid #f1f5f9;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.flow-label {
+    font-size: 1rem;
+    /* Sharply increased for visibility */
+    font-weight: 900;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.feature-nodes-stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+}
+
+.feature-tag-pill {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 12px 18px;
+    /* Slightly larger padding */
+    border-radius: 10px;
+    font-size: 1.1rem;
+    /* Increased for visibility */
+    color: #334155;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.feature-tag-pill:hover {
+    transform: translateX(6px);
+    border-color: var(--primary);
+    background: #f0f7ff;
+}
+
+.flow-connector {
+    width: 300px;
+    height: 180px;
+}
+
+.path-stroke {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 1.8;
+    /* Thicker for visibility */
+    opacity: 0.25;
+    /* Higher opacity */
+}
+
+
+.engine-node {
+    width: 180px;
+    height: 180px;
+    background: #ffffff;
+    border: 3px solid var(--primary);
+    /* Thicker border */
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    box-shadow:
+        0 10px 40px rgba(79, 70, 229, 0.15),
+        inset 0 0 20px rgba(79, 70, 229, 0.05);
+}
+
+.engine-sub {
+    font-size: 0.85rem;
+    /* Significant increase in size */
+    font-weight: 900;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.engine-main {
+    font-size: 1.4rem;
+    /* Increased for visibility */
+    font-weight: 950;
+    color: var(--text-main);
+    margin-top: 0.4rem;
+    text-align: center;
+}
+
+/* Pulsing ML engine effect */
+
+.engine-shadow {
+    position: absolute;
+    inset: -12px;
+    /* Larger pulse ring */
+    border: 2px solid rgba(79, 70, 229, 0.3);
+    border-radius: 50%;
+    animation: enginePulse 2.8s infinite ease-out;
+}
+
+@keyframes enginePulse {
+    from {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    to {
+        transform: scale(1.25);
+        opacity: 0;
+    }
+}
+
+.logic-execution-card {
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    padding: 1.4rem;
+    border-radius: 18px;
+    margin-bottom: 1.2rem;
+}
+
+.logic-display {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.4rem;
+    text-align: center;
+}
+
+.logic-line .label,
+.logic-outcome .label {
+    font-size: 0.8rem;
+    /* Increased from 0.55rem */
+    font-weight: 900;
+    color: #64748b;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.05em;
+}
+
+.logic-line code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    /* Increased for visibility */
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.logic-dir {
+    font-size: 1.5rem;
+    /* More visible */
+    color: #cbd5e1;
+    margin: 0.5rem 0;
+}
+
+.logic-outcome.error .val {
+    font-size: 1.1rem;
+    /* Increased size */
+    font-weight: 950;
+    color: #dc2626;
+    background: #fef2f2;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
+.logic-note {
+    font-size: 0.85rem;
+    /* More visible */
+    color: #94a3b8;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.performance-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.perf-summary-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    padding: 1.5rem;
+    /* Larger padding */
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.perf-summary-card .p-val {
+    font-size: 2.2rem;
+    /* Increased from 2rem */
+    font-weight: 950;
+    color: #dc2626;
+    margin-top: 0.5rem;
+}
+
+/* Consolidated User Overrides for Visibility */
+.p-label {
+    font-size: 1.8rem;
+    /* Final User Choice */
+    font-weight: 900;
+    color: #475569;
+    /* Slightly darker for visibility */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+    text-align: center;
+}
+
+.perf-summary-card .p-label {
+    font-size: 1.3rem;
+    /* Final User Choice */
+    font-weight: 850;
+}
+
+@media (max-width: 1100px) {
+    .anomaly-layout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .industrial-flow-visual {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .flow-connector {
+        display: none;
+    }
+
+    .engine-node {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .anomaly-premium-card {
+        padding: 1.5rem;
+    }
+
+    .algo-title-text {
+        font-size: 2rem;
+    }
+
+    .p-label {
+        font-size: 1.4rem;
+    }
+}
