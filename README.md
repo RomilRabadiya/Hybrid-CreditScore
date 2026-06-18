@@ -1,4 +1,24 @@
-# README.md
+# 🏗 System Architecture
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RomilRabadiya/Hybrid-CreditScore/main/Hybrid%20Credit%20Score%20Architecture.png" width="1400">
+</p>
+
+---
+
+# ⚙️ Backend Workflow
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RomilRabadiya/Hybrid-CreditScore/main/Backend%20Flow.png" width="1200">
+</p>
+
+---
+
+# 🤖 ML Workflow
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RomilRabadiya/Hybrid-CreditScore/main/ML%20Model%20Flow.png" width="1200">
+</p>
 
 # 🏦 Hybrid Credit Score & AI Decisioning System
 
