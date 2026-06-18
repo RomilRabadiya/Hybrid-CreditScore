@@ -1,133 +1,560 @@
-# 🏛️ Hybrid Credit Score System Architecture
+# README.md
+
+# 🏦 Hybrid Credit Score & AI Decisioning System
+
+> A multi-model AI-powered credit scoring platform that generates synthetic banking behavior from a PAN number, extracts financial features, performs risk analysis using multiple machine learning models, and produces an explainable credit decision.
 
 ---
 
-## 🔹 Layer 1: User & Input
+# 📌 Project Overview
 
-**Identity & Interaction Layer**
+Traditional credit scoring systems rely heavily on bureau history and static rules.
 
-*   **Core Identifier**: PAN-Based Identity
-*   **User Interface**:
-    *   **Input**: PAN Number
-    *   **Action**: "Generate Bank Statement" button
-*   **Key Behavior**:
-    *   Deterministic: Same PAN → Always generates the exact same bank statement.
-    *   PAN is the sole identifier for the session.
-   ### ML-API (Port 8000)
+This project introduces a **Hybrid Credit Score & Decisioning System** that combines:
 
-- `POST /api/credit/decision` - Generate ML-powered credit decision
-- `GET /health` - Health check
-- `GET /docs` - Interactive API documentation
+* Rule-Based Credit Assessment
+* Anomaly Detection
+* Probability of Default Prediction
+* Risk Classification
+* Hybrid Credit Scoring
+* Reinforcement Learning Decisioning
+
+to generate a robust and explainable lending decision.
 
 ---
 
-## 🔹 Layer 2: Bank Statement Generation
+# 🎯 Problem Statement
 
-**Data Streaming Layer**
+Financial institutions need to answer:
 
-*   **Service**: `BankDataSimulationService`
-*   **Role**: Simulates realistic banking data streams.
-*   **Output**: `Stream<BankTransaction>`
-*   **Volume**: 5,000 - 10,000 transactions per year.
-*   **Entity: `BankTransaction`**:
-    *   Date, Direction (INFLOW/OUTFLOW), Nature (SALARY, EMI, RENT...), Channel (UPI, NEFT), Amount, Balance (Before/After).
-*   **Properties**: Immutable, Ledger-safe, Streaming, Low memory footprint.
+* Is this customer risky?
+* What is the probability of default?
+* Is there suspicious banking behavior?
+* What credit score should be assigned?
+* Should the loan be approved, reviewed, or rejected?
 
----
-
-## 🔹 Layer 3: Rule Engine
-
-**Compliance & Governance Core**
-
-*   **Service**: `RuleBasedCreditScoreService`
-*   **Purpose**: Deterministic, explainable scoring (Compliance-first).
-*   **7 Core Rule Sections**:
-    1.  Income Strength
-    2.  Income Stability
-    3.  Expense Discipline
-    4.  EMI Burden
-    5.  Balance Health
-    6.  Bounce Discipline
-    7.  Account Vintage
-*   **Output**:
-    *   **Rule Score**: 300 - 900
-    *   **Breakdown**: Detailed contribution of each rule.
-> 💡 **Note**: Rules are executed *before* any ML model to ensure regulatory compliance.
+This system answers all of the above using a layered AI architecture.
 
 ---
 
-## 🔹 Layer 4: Feature Extraction
+# 🏗 System Architecture
 
-**The "Brain" - Single Pass Accumulator**
-
-*   **Component**: `FeatureAccumulator`
-*   **Pattern**: Single-pass stream processing.
-*   **Input**: Consumes `Stream<BankTransaction>`.
-*   **Derived Feature Vector**:
-    *   `avgMonthlyIncome`
-    *   `incomeCV` (Coefficient of Variation)
-    *   `expenseRatio`
-    *   `emiRatio`
-    *   `avgMonthlyBalance`
-    *   `bounceCount`
-    *   `accountAgeMonths`
-    *   `anomalyFlag` (Initially false)
-> ⚠️ **Critical**: ML models *never* read raw transactions. They only see this derived feature vector.
-
----
-
-## 🔹 Layer 5: Machine Learning Intelligence
-
-**Multi-Model Ensemble**
-
-| Model | Purpose | Output |
-| :--- | :--- | :--- |
-| **🌲 Random Forest** | Risk Classification | `LOW` / `MEDIUM` / `HIGH` Risk |
-| **🚀 Gradient Boosting** | Precise Scoring | Score `300` - `900` |
-| **🕵️ Isolation Forest** | Fraud/Anomaly Detection | `anomalyDetected` = `true`/`false` |
-| **📉 Logistic Regression** | Baseline Validation | Probability of Default (PD) |
-
-**Anomaly Detection Capabilities**:
-*   Cash Structuring (e.g., ₹49,900 withdrawals)
-*   Sudden massive inflow spikes
-*   Expense > Income
-
----
-
-## 🔹 Layer 6: AI Decision Strategy
-
-**Reinforcement Learning (RL) Engine**
-
-*   **Model**: Q-Learning (Offline Trained)
-*   **Inputs**:
-    *   Rule Score
-    *   ML Risk Bucket
-    *   ML Score
-    *   Anomaly Flag
-*   **Actions (Outputs)**:
-    1.  ✅ **APPROVE**
-    2.  ⚠️ **MANUAL REVIEW**
-    3.  ❌ **REJECT**
-*   **Reward Function**: Optimizes for Profit, minimizes Default Loss and Fraud Penalty.
-> 🔒 **Safety Notice**: RL chooses the *decision* (Action), it does **NOT** alter the calculated Credit Score.
+```text
+User
+ │
+ ▼
+React Frontend
+ │
+ ▼
+Spring Boot Backend
+ │
+ ▼
+Bank Statement Generator
+ │
+ ▼
+Feature Extraction Engine
+ │
+ ▼
+Engineered Feature Vector
+ │
+ ├── Anomaly Model
+ │
+ ├── PD Model
+ │
+ ├── Risk Label Model
+ │
+ ├── Hybrid Credit Score Model
+ │
+ └── RL Decision Engine
+ │
+ ▼
+FastAPI Decision Service
+ │
+ ▼
+Final Credit Decision
+```
 
 ---
 
-## 🔹 Layer 7: AI Explanation & Summary
+# 🚀 Technology Stack
 
-**Trust & Transparency Layer**
+## Frontend
 
-*   **Powered By**: SHAP (SHapley Additive exPlanations) + Rule Logic.
-*   **Final Output Panel**:
-    *   Final Credit Score
-    *   Risk Category
-    *   Decision (Approve/Review/Reject)
-*   **Explanation Examples**:
-    *   "EMI ratio reduced score by -42 points"
-    *   "Stable income added +35 points"
-    *   "Anomaly detected → Triggered Manual Review"
-*   **Visuals**:
-    *   Contribution Bar Chart
-    *   Feature Importance Graph
-    *   Rule vs. ML Comparison
-> 💡 **Goal**: Human-readable, regulator-ready explanations for every decision.
+* React
+* Vite
+* Axios
+* React Router
+* Framer Motion
+
+## Backend
+
+* Spring Boot
+* Java 21
+* Maven
+* REST APIs
+* Java Stream
+
+## Machine Learning
+
+* Python
+* Scikit-Learn
+* XGBoost
+* Isolation Forest
+* Random Forest
+* Logistic Regression
+
+## Decision Intelligence
+
+* Q-Learning
+
+## API Layer
+
+* FastAPI
+
+---
+
+# 🔄 Complete Workflow
+
+---
+
+## Step 1: User Input
+
+User enters:
+
+```text
+PAN Number
+```
+
+Example:
+
+```text
+ABCDE1234F
+```
+
+---
+
+## Step 2: Bank Statement Generation
+
+Backend generates deterministic banking behavior.
+
+Same PAN always generates:
+
+```text
+Same Customer
+Same Transactions
+Same Features
+Same Credit Score
+```
+
+Generated transactions include:
+
+* Salary
+* Rent
+* EMI
+* Utilities
+* UPI
+* Card Payments
+* Cash Withdrawals
+
+---
+
+## Step 3: Feature Engineering
+
+Raw transactions are transformed into ML features.
+
+### Extracted Features
+
+| Feature           |
+| ----------------- |
+| avgMonthlyIncome  |
+| incomeCV          |
+| expenseRatio      |
+| emiRatio          |
+| avgMonthlyBalance |
+| bounceCount       |
+| accountAgeMonths  |
+
+Example:
+
+| Feature           | Value     |
+| ----------------- | --------- |
+| avgMonthlyIncome  | 320283.48 |
+| incomeCV          | 0.03      |
+| expenseRatio      | 0.485     |
+| emiRatio          | 0.086     |
+| avgMonthlyBalance | 82434.68  |
+| bounceCount       | 0         |
+| accountAgeMonths  | 72        |
+
+---
+
+# 🤖 Multi-Model AI Pipeline
+
+The system uses five specialized ML models.
+
+---
+
+# 1️⃣ Anomaly Detection Model
+
+### Algorithm
+
+```text
+Isolation Forest
+```
+
+### Purpose
+
+Detect:
+
+* Fraud patterns
+* Unusual transactions
+* Suspicious account behavior
+
+### Input
+
+```text
+Engineered Feature Vector
+```
+
+### Output
+
+```text
+anomalyFlag
+```
+
+Example:
+
+```json
+{
+  "anomalyFlag": 0
+}
+```
+
+---
+
+# 2️⃣ Probability of Default Model
+
+### Algorithm
+
+```text
+Logistic Regression
+```
+
+### Purpose
+
+Estimate default probability.
+
+### Input
+
+```text
+Engineered Features
+```
+
+### Output
+
+```text
+pdScore
+```
+
+Example:
+
+```json
+{
+  "pdScore": 0.142
+}
+```
+
+---
+
+# 3️⃣ Risk Label Model
+
+### Algorithm
+
+```text
+Random Forest Classifier
+```
+
+### Purpose
+
+Convert financial behavior into risk category.
+
+### Output
+
+```text
+LOW
+MEDIUM
+HIGH
+```
+
+Example:
+
+```json
+{
+  "riskLabel": "MODERATE"
+}
+```
+
+---
+
+# 4️⃣ Hybrid Credit Score Model
+
+### Algorithm
+
+```text
+Gradient Boosting Regressor
+```
+
+### Purpose
+
+Generate final credit score.
+
+### Inputs
+
+* Features
+* Anomaly Flag
+* PD Score
+* Risk Label
+
+### Output
+
+```text
+Credit Score
+300 - 900
+```
+
+Example:
+
+```json
+{
+  "creditScore": 742
+}
+```
+
+---
+
+# 5️⃣ RL Decision Engine
+
+### Algorithm
+
+```text
+Q-Learning
+```
+
+### Purpose
+
+Generate lending action.
+
+### Inputs
+
+* Credit Score
+* Risk Label
+* PD Score
+* Anomaly Flag
+
+### Output
+
+```text
+APPROVE
+REVIEW
+REJECT
+```
+
+Example:
+
+```json
+{
+  "decision": "APPROVE"
+}
+```
+
+---
+
+# 📊 Model Flow
+
+```text
+Features
+   │
+   ▼
+
+Isolation Forest
+   │
+   ▼
+anomalyFlag
+
+   │
+   ▼
+
+Logistic Regression
+   │
+   ▼
+pdScore
+
+   │
+   ▼
+
+Random Forest
+   │
+   ▼
+riskLabel
+
+   │
+   ▼
+
+Gradient Boosting
+   │
+   ▼
+creditScore
+
+   │
+   ▼
+
+Q-Learning
+   │
+   ▼
+APPROVE / REVIEW / REJECT
+```
+
+---
+
+# 📁 Project Structure
+
+```text
+Hybrid Credit Score
+│
+├── Frontend/
+│   ├── React
+│   ├── Components
+│   └── Dashboard UI
+│
+├── Backend/
+│   ├── Spring Boot
+│   ├── Controllers
+│   ├── Services
+│   ├── Models
+│   └── Rule Engine
+│
+├── ML/
+│   │
+│   ├── 1. Generators
+│   │
+│   ├── 2. Models
+│   │    ├── 1. Anomaly_model
+│   │    ├── 2. PD_model
+│   │    ├── 3. Risk_Label_model
+│   │    ├── 4. Hybrid_CreditScore_model
+│   │    └── 5. RL_model
+│   │
+│   ├── 3. Data
+│   │
+│   └── 4. Decision_Engines
+│
+└── API-CreditDecisionEngine/
+    └── FastAPI Service
+```
+
+---
+
+# 📂 Trained Model Artifacts
+
+Generated artifacts include:
+
+```text
+isolation_forest.joblib
+
+pd_model.joblib
+
+risk_model.joblib
+
+hybrid_credit_score_model.joblib
+
+q_learning_model.joblib
+
+credit_decision_engine.joblib
+```
+
+---
+
+# 🌐 API Endpoints
+
+## Credit Decision
+
+```http
+POST /api/credit/decision
+```
+
+### Request
+
+```json
+{
+  "panNumber": "ABCDE1234F"
+}
+```
+
+### Response
+
+```json
+{
+  "creditScore": 742,
+  "pdScore": 0.142,
+  "riskLabel": "MODERATE",
+  "anomalyStatus": "NORMAL",
+  "decision": "APPROVE"
+}
+```
+
+---
+
+## Health Check
+
+```http
+GET /health
+```
+
+---
+
+# 📈 Sample Output
+
+```json
+{
+  "creditScore": 742,
+  "riskLabel": "MODERATE",
+  "pdScore": 0.142,
+  "anomalyStatus": "NORMAL",
+  "decision": "APPROVE"
+}
+```
+
+---
+
+# ⭐ Key Features
+
+✅ PAN-based deterministic customer generation
+
+✅ Bank statement simulation
+
+✅ Feature engineering pipeline
+
+✅ Isolation Forest anomaly detection
+
+✅ Probability of Default estimation
+
+✅ Risk categorization
+
+✅ Hybrid AI credit scoring
+
+✅ Reinforcement Learning decision engine
+
+✅ Spring Boot + FastAPI integration
+
+✅ Explainable multi-model architecture
+
+---
+
+# 👨‍💻 Authors
+
+**Romil Rabadiya**
+Computer Engineering Student
+
+**Project Type:** Major Project / FinTech AI System
+
+**Domain:** Machine Learning, Credit Risk Analytics, Reinforcement Learning, Financial Decisioning System.
