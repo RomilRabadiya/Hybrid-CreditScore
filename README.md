@@ -20,6 +20,16 @@
   <img src="https://raw.githubusercontent.com/RomilRabadiya/Hybrid-CreditScore/main/ML%20Model%20Flow.png" width="1200">
 </p>
 
+---
+
+# ⚙️ Rule Based Credit Score
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RomilRabadiya/Hybrid-CreditScore/main/Rule%20Engine.png" width="1200">
+</p>
+
+---
+
 # 🏦 Hybrid Credit Score & AI Decisioning System
 
 > A multi-model AI-powered credit scoring platform that generates synthetic banking behavior from a PAN number, extracts financial features, performs risk analysis using multiple machine learning models, and produces an explainable credit decision.
