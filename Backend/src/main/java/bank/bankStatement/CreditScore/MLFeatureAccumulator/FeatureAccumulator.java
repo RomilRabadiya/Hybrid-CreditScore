@@ -3,191 +3,277 @@ package bank.bankStatement.CreditScore.MLFeatureAccumulator;
 import bank.bankStatement.CreditScore.BankTransactionEntity.BankTransaction;
 import bank.bankStatement.CreditScore.BankTransactionEntity.TransactionDirection;
 import bank.bankStatement.CreditScore.BankTransactionEntity.TransactionNature;
-import java.util.Collection;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-//ML Model Input That Calculate by FeatureAccumulator Class accept method
+/*
+ * ============================================================================
+ * FEATURE ACCUMULATOR (STREAM API VERSION)
+ * ============================================================================
+ *
+ * Converts Raw Bank Transactions -> ML Features
+ *
+ * Features Generated:
+ *
+ * 1. avgMonthlyIncome
+ * 2. incomeCV
+ * 3. expenseRatio
+ * 4. emiRatio
+ * 5. avgMonthlyBalance
+ * 6. bounceCount
+ * 7. accountAgeMonths
+ *
+ * Java Stream Operations Used:
+ *
+ * filter()
+ * map()
+ * groupingBy()
+ * reduce()
+ * count()
+ * collect()
+ *
+ * ============================================================================
+ */
 
-//     avgMonthlyIncome    =>	Repayment capacity
-//     incomeCV            =>	Income stability
-//     expenseRatio        =>	Spending discipline
-//     emiRatio            =>	Debt burden
-//     avgMonthlyBalance   =>	Liquidity
-//     bounceCount         =>	Trust / repayment discipline
-//     accountAgeMonths    =>	Credit maturity
+public class FeatureAccumulator {
 
-//FeatureAccumulator is a class that is used to store the results of the bank statement analysis.
-//It Will COnvert Bank Transactions to Features of ML Model
+    public BankStatementAnalysis analyze(List<BankTransaction> transactions) {
 
-//All Bank transaction call accept method
-//At the end toResult method call to Make ML Model Input
-public class FeatureAccumulator 
-{
-
-    //Use For Calculate incomeCV
-    BigDecimal totalIncome = BigDecimal.ZERO;
-    //Calculate ExpenseRatio
-    BigDecimal totalExpenses = BigDecimal.ZERO;
-    //Calculate EMI Ratio
-    BigDecimal totalEmi = BigDecimal.ZERO;
-
-    //Use For Calculate avgMonthlyIncome
-    Map<Integer, BigDecimal> monthlyIncome = new HashMap<>();
-
-    //Use For Calculate avgMonthlyBalance
-    BigDecimal balanceSum = BigDecimal.ZERO;
-    int balanceCount = 0;
-
-    //Use For Calculate bounceCount
-    int bounceCount = 0;
-
-    //Use For Calculate accountAgeMonths
-    LocalDate firstDate = null;
-    LocalDate lastDate = null;
-
-    //Set Feature Accumulator For Each Transaction
-    public void addTransaction(BankTransaction t) {
-
-        // ---- Account age tracking
-        if (firstDate == null || t.getTransactionDate().isBefore(firstDate)) {
-            firstDate = t.getTransactionDate();
-        }
-        if (lastDate == null || t.getTransactionDate().isAfter(lastDate)) {
-            lastDate = t.getTransactionDate();
+        if (transactions == null || transactions.isEmpty()) {
+            return new BankStatementAnalysis(
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    0,
+                    0);
         }
 
-        // ---- Balance tracking
-        balanceSum = balanceSum.add(t.getBalanceAfter());
-        balanceCount++;
+        /*
+         * ===============================================================
+         * FEATURE 1 : AVG MONTHLY INCOME
+         * ===============================================================
+         */
 
-        // ---- Income
-        if (t.getDirection() == TransactionDirection.INFLOW &&
-            (t.getNature() == TransactionNature.SALARY ||
-             t.getNature() == TransactionNature.BUSINESS_INCOME)) {
+        Map<Integer, BigDecimal> monthlyIncome = transactions.stream()
 
-            totalIncome = totalIncome.add(t.getAmount());
+                .filter(t ->
+                        t.getDirection() == TransactionDirection.INFLOW
+                                && t.getNature() == TransactionNature.BUSINESS_INCOME)
 
-            int month = t.getTransactionDate().getMonthValue();
-            monthlyIncome.merge(month, t.getAmount(), BigDecimal::add);
-        }
+                .collect(Collectors.groupingBy(
+                        t -> t.getTransactionDate().getMonthValue(),
 
-        // ---- EMI
-        if (t.getNature() == TransactionNature.EMI) {
-            totalEmi = totalEmi.add(t.getAmount());
-        }
+                        Collectors.mapping(
+                                BankTransaction::getAmount,
 
-        // ---- True Expenses (discipline)
-        if (t.getDirection() == TransactionDirection.OUTFLOW &&
-            t.getNature() != TransactionNature.EMI &&
-            t.getNature() != TransactionNature.BANK_CHARGES &&
-            t.getNature() != TransactionNature.TAX_PAYMENT &&
-            t.getNature() != TransactionNature.GST_PAYMENT) {
+                                Collectors.reducing(
+                                        BigDecimal.ZERO,
+                                        BigDecimal::add))));
 
-            totalExpenses = totalExpenses.add(t.getAmount());
-        }
+        BigDecimal totalIncome = monthlyIncome.values()
+                .stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // ---- Bounce detection
-        if (t.getNature() == TransactionNature.BANK_CHARGES) {
-            bounceCount++;
-        }
-    }
+        BigDecimal avgMonthlyIncome = monthlyIncome.isEmpty()
+                ? BigDecimal.ZERO
+                : totalIncome.divide(
+                BigDecimal.valueOf(12),
+                2,
+                RoundingMode.HALF_UP);
 
-    //Convert all accumulated transaction data into a BankStatementAnalysis (ML model input)
-    public BankStatementAnalysis toAnalysis() 
-    {
+        /*
+         * ===============================================================
+         * FEATURE 2 : INCOME COEFFICIENT OF VARIATION
+         * ===============================================================
+         */
 
-        //Average Monthly Income = Total Income ÷ Number of Months
-        BigDecimal avgMonthlyIncome =
-                monthlyIncome.isEmpty()
-                        ? BigDecimal.ZERO
-                        : totalIncome.divide(
-                                BigDecimal.valueOf(monthlyIncome.size()),
-                                2,
-                                RoundingMode.HALF_UP
-                        );
-
-        //Coefficient of Variation = Standard Deviation ÷ Average Income
         BigDecimal incomeCV = calculateCV(monthlyIncome.values());
 
-        //Expense Ratio = Total Expenses ÷ Total Income
-        BigDecimal expenseRatio =
-                totalIncome.signum() == 0
-                        ? BigDecimal.ZERO
-                        : totalExpenses.divide(totalIncome, 4, RoundingMode.HALF_UP);
-        //EMI Ratio = Total EMI ÷ Total Income
-        BigDecimal emiRatio =
-                totalIncome.signum() == 0
-                        ? BigDecimal.ZERO
-                        : totalEmi.divide(totalIncome, 4, RoundingMode.HALF_UP);
+        /*
+         * ===============================================================
+         * FEATURE 3 : EXPENSE RATIO
+         *
+         * Expense Ratio =
+         * Total Expenses / Total Income
+         * ===============================================================
+         */
 
-        //Average Monthly Balance = Total Balance ÷ Number of Months
-        BigDecimal avgBalance =
-                balanceCount == 0
-                        ? BigDecimal.ZERO
-                        : balanceSum.divide(
-                                BigDecimal.valueOf(balanceCount),
-                                2,
-                                RoundingMode.HALF_UP
-                        );
+        BigDecimal totalExpenses = transactions.stream()
 
-        //Account Age in Months = Number of Months between First and Last Transaction
+                .filter(t ->
+                        t.getDirection() == TransactionDirection.OUTFLOW
+                                && t.getNature() != TransactionNature.EMI
+                                && t.getNature() != TransactionNature.BANK_CHARGES
+                                && t.getNature() != TransactionNature.TAX_PAYMENT
+                                && t.getNature() != TransactionNature.GST_PAYMENT)
+
+                .map(BankTransaction::getAmount)
+
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal expenseRatio = totalIncome.signum() == 0
+                ? BigDecimal.ZERO
+                : totalExpenses.divide(
+                totalIncome,
+                4,
+                RoundingMode.HALF_UP);
+
+        /*
+         * ===============================================================
+         * FEATURE 4 : EMI RATIO
+         *
+         * EMI Ratio =
+         * Total EMI / Total Income
+         * ===============================================================
+         */
+
+        BigDecimal totalEmi = transactions.stream()
+
+                .filter(t ->
+                        t.getNature() == TransactionNature.EMI)
+
+                .map(BankTransaction::getAmount)
+
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal emiRatio = totalIncome.signum() == 0
+                ? BigDecimal.ZERO
+                : totalEmi.divide(
+                totalIncome,
+                4,
+                RoundingMode.HALF_UP);
+
+        /*
+         * ===============================================================
+         * FEATURE 5 : AVERAGE MONTHLY BALANCE
+         * ===============================================================
+         */
+
+        BigDecimal totalBalance = transactions.stream()
+
+                .map(BankTransaction::getBalanceAfter)
+
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal avgMonthlyBalance = totalBalance.divide(
+                BigDecimal.valueOf(transactions.size()),
+                2,
+                RoundingMode.HALF_UP);
+
+        /*
+         * ===============================================================
+         * FEATURE 6 : BOUNCE COUNT
+         * ===============================================================
+         */
+
+        int bounceCount = (int) transactions.stream()
+
+                .filter(t ->
+                        t.getNature() == TransactionNature.BANK_CHARGES)
+
+                .count();
+
+        /*
+         * ===============================================================
+         * FEATURE 7 : ACCOUNT AGE IN MONTHS
+         * ===============================================================
+         */
+
+        LocalDate firstDate = transactions.stream()
+
+                .map(BankTransaction::getTransactionDate)
+
+                .min(LocalDate::compareTo)
+
+                .orElse(null);
+
+        LocalDate lastDate = transactions.stream()
+
+                .map(BankTransaction::getTransactionDate)
+
+                .max(LocalDate::compareTo)
+
+                .orElse(null);
+
         int accountAgeMonths =
                 (firstDate == null || lastDate == null)
                         ? 0
-                        : (int) java.time.temporal.ChronoUnit.MONTHS.between(firstDate, lastDate);
+                        : (int) ChronoUnit.MONTHS.between(firstDate, lastDate);
+
+        /*
+         * ===============================================================
+         * FINAL ML MODEL INPUT
+         * ===============================================================
+         */
 
         return new BankStatementAnalysis(
                 avgMonthlyIncome,
                 incomeCV,
                 expenseRatio,
                 emiRatio,
-                avgBalance,
+                avgMonthlyBalance,
                 bounceCount,
-                accountAgeMonths
-        );
+                accountAgeMonths);
     }
 
-    private BigDecimal calculateCV(Collection<BigDecimal> values) 
-    {
+    /*
+     * ===============================================================
+     * CALCULATE COEFFICIENT OF VARIATION
+     *
+     * CV = StandardDeviation / Mean
+     * ===============================================================
+     */
+
+    private BigDecimal calculateCV(Collection<BigDecimal> values) {
+
         if (values == null || values.isEmpty()) {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal sum = BigDecimal.ZERO;
-        BigDecimal sumSq = BigDecimal.ZERO;
-        for (BigDecimal v : values) {
-            sum = sum.add(v);
-            sumSq = sumSq.add(v.multiply(v));
-        }
+        BigDecimal sum = values.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal sumSq = values.stream()
+                .map(v -> v.multiply(v))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         int count = values.size();
+
         BigDecimal n = BigDecimal.valueOf(count);
-        BigDecimal mean = sum.divide(n, MathContext.DECIMAL128);
+
+        BigDecimal mean =
+                sum.divide(n, MathContext.DECIMAL128);
 
         if (mean.compareTo(BigDecimal.ZERO) == 0) {
             return BigDecimal.ZERO;
         }
 
-        // Variance = (SumSq - (Sum^2)/n) / n  (Population Variance)
-        // or (SumSq - (Sum^2)/n) / (n-1) (Sample Variance)
-        // Using Population Variance for simplicity or as standard for datasets
-        
-        BigDecimal meanSq = mean.pow(2);
-        BigDecimal avgSumSq = sumSq.divide(n, MathContext.DECIMAL128);
-        BigDecimal variance = avgSumSq.subtract(meanSq);
-        
+        BigDecimal avgSumSq =
+                sumSq.divide(n, MathContext.DECIMAL128);
+
+        BigDecimal variance =
+                avgSumSq.subtract(mean.pow(2));
+
         if (variance.compareTo(BigDecimal.ZERO) <= 0) {
             return BigDecimal.ZERO;
         }
-        
-        BigDecimal stdDev = variance.sqrt(MathContext.DECIMAL128);
-        
-        return stdDev.divide(mean, 4, RoundingMode.HALF_UP);
+
+        BigDecimal stdDev =
+                variance.sqrt(MathContext.DECIMAL128);
+
+        return stdDev.divide(
+                mean,
+                4,
+                RoundingMode.HALF_UP);
     }
 }
